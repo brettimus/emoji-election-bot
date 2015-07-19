@@ -21,7 +21,7 @@ templates = {
     createdVote: new Boo(createdVote),
     updatedVote: new Boo(updatedVote),
     votedForSelf: new Boo(votedForSelf),
-    firstVoteForCandidate: new Boot(firstVoteForCandidate),
+    firstVoteForCandidate: new Boo(firstVoteForCandidate),
 };
 
 module.exports.voteCreated = function(data) {
