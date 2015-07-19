@@ -12,7 +12,9 @@ var client = new Twitter({
     access_token_secret: 'OnpsBiw66URVqx5msiaCoRRrQ5ZmvjhlDxXgWD6xT3Cd8'
 });
 
-client.stream('statuses/filter', { track: '@emoji4president' }, function(stream) {
+var BOT_HANDLE = "emojielection";
+
+client.stream('statuses/filter', { track: '@'+BOT_HANDLE }, function(stream) {
 
     stream.on('data', function(tweet) {
         var data = parseTweet(tweet);
@@ -30,14 +32,15 @@ client.stream('statuses/filter', { track: '@emoji4president' }, function(stream)
                     console.log("Error sending vote...", err);
                     return;
                 }
-                if (!(data.voter.handle === "emoji4president")) {
+                if (data.voter.handle === BOT_HANDLE) {
+                    console.log("[BOT]: Short circuited a reply to myself.");
+                }
+                else {
                     replyToVoter(
                         client,
                         body,
                         replyCallback
                     );
-                } else {
-                    console.log("Short circuited reply to myself...");
                 }
             });
         }
