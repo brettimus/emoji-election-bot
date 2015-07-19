@@ -9,7 +9,7 @@ var updatedVote = "@{{voter}} "+
                     "I updated your vote for @{{candidate}} to {{vote}}.";
 
 var votedForSelf = "@{{voter}} You are America!!\n\n"+
-                    "I'm glad you find yourself {{vote}}.";
+                    "I'll remember next November that you are {{vote}}.";
 
 module.exports = {
     createdVote: new Boo(createdVote),
