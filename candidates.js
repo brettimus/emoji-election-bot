@@ -11,6 +11,8 @@ var CANDIDATES = [
     "BobbyJindal",
     "MarcoRubio",
     "rudeboot",
+    "gunboat",
+    "seanlerner",
 ].map(function(s) { return s.toLowerCase(); });
 
 // Make a hash for easier lookups by handle
@@ -26,5 +28,3 @@ CANDIDATES.contains = function(handle) {
 };
 
 module.exports = CANDIDATES;
-
-
