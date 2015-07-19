@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "boo-templates": "^0.1.4",
     "emoji-regex": "^6.0.0",
-    "twitter": "^1.2.5",
     "miso.dataset": "^0.4.1",
-    "request": "^2.58.0"
+    "request": "^2.58.0",
+    "twitter": "^1.2.5"
   },
   "devDependencies": {},
   "scripts": {
