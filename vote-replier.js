@@ -6,13 +6,14 @@ var replyTemplate = new Boo(t);
 module.exports = replyToVoter;
 
 function replyToVoter(client, data, next) {
+    var originalData = data.original_request;
     var templateData = {
-        voter: data.voter.handle,
-        vote: data.vote,
+        voter: originalData.voter.handle,
+        vote: originalData.vote,
     };
 
     var status = replyTemplate.compile(templateData);
-    var replyingTo = data.tweet_id;
+    var replyingTo = originalData.tweet_id;
 
     var tweetOptions = {
         status: status,

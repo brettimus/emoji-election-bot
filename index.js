@@ -30,11 +30,15 @@ client.stream('statuses/filter', { track: '@emoji4president' }, function(stream)
                     console.log("Error sending vote...", err);
                     return;
                 }
-                replyToVoter(
-                    client,
-                    body.original_request,
-                    replyCallback
-                );
+                if (!(data.voter.handle === "emoji4president")) {
+                    replyToVoter(
+                        client,
+                        body,
+                        replyCallback
+                    );
+                } else {
+                    console.log("Short circuited reply to myself...");
+                }
             });
         }
     });
