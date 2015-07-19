@@ -1,14 +1,19 @@
-var Miso = require("miso.dataset");
-var ds = new Miso.Dataset({
-    importer: Miso.Dataset.Importers.GoogleSpreadsheet,
-    parser: Miso.Dataset.Parsers.GoogleSpreadsheet,
-    key: "",
-    worksheet: "1",
-});
-
-var url = "https://docs.google.com/spreadsheets/d/1UP3o3ea_2LTyyL1aAqTRKHzjbOqZO_Z0ZHoBrOB5Fnw/edit?usp=sharing";
 module.exports = validateVote;
 
-function validateVote(vote, callback) {
+function validateVote(data, callbacks) {
 
+    callbacks.success = callbacks.success || noop;
+    callbacks.failure = callbacks.failure || noop;
+
+    if (!data.vote) {
+        console.log("No emoji found. Here's the parsed data: ", data);
+        callbacks.failure("No emoji.");
+    } else if (!data.candidates.length) {
+        console.log("No candidate found! Here's the parsed data: ", data);
+        callbacks.failure("No candidate.");
+    } else {
+        callbacks.success();
+    }
 }
+
+function noop() {}

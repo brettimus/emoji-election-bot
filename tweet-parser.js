@@ -1,31 +1,44 @@
+var CANDIDATES = require("./candidates");
 var emojiRegex = require("emoji-regex");
+
 module.exports = parseTweet;
 
 function parseTweet(tweet) {
-    var vote     = getEmoji(tweet.text);
-    var mentions = tweet
-        .entities
-        .user_mentions
-        .map(parseMention);
+    var text       = tweet.text,
+        vote       = parseEmoji(text),
+        voter      = parseUser(tweet.user),
+        candidates = tweet
+            .entities
+            .user_mentions
+            .filter(isCandidate)
+            .map(parseUser);
 
     return {
-        original_text: tweet.text,
-        vote: vote,
-        mentions: mentions,
+        vote          : vote,
+        voter         : voter,
+        candidates    : candidates,
+        original_text : text,
+        tweet_id      : tweet.id,
     };
 }
 
 // Helpers
-function getEmoji(text) {
+//
+function isCandidate(m) {
+    return CANDIDATES.contains(m.screen_name);
+}
+
+function parseEmoji(text) {
     var match = text.match(emojiRegex());
     if (!match) return null;
     return match[0];
 }
 
-function parseMention(m) {
+function parseUser(m) {
     return {
-        handle : m.screen_name,
-        name   : m.name,
-        user_id: m.id,
+        handle    : m.screen_name,
+        name      : m.name,
+        twitter_id: m.id,
     };
 }
+
