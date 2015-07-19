@@ -5,12 +5,9 @@ var validateVote  = require("./vote-validator");
 var sendVote      = require("./vote-sender");
 var replyToVoter  = require("./vote-replier");
 
-var client = new Twitter({
-    consumer_key: 'hnlhI3YdRyp7cnhHgrXqGjC2T',
-    consumer_secret: 'ehYqzFAvCt7vp4HoqfJwrljmwxVomqU0lVmMpPETmqVy1ho2C5',
-    access_token_key: '3282898548-GSH0CzvuJSia79BChPAK08uW0B2fo13IMkAHDrk',
-    access_token_secret: 'OnpsBiw66URVqx5msiaCoRRrQ5ZmvjhlDxXgWD6xT3Cd8'
-});
+var credentials = require("./credentials");
+
+var client = new Twitter(credentials);
 
 var BOT_HANDLE = "emojielection";
 
