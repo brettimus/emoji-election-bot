@@ -1,7 +1,6 @@
 var Boo = require("boo-templates");
 var t   = "@{{voter}} You are saving America!\n\n"+
-            "Your {{vote}} was cast, and "+
-            "I promise not to tell anyone whom you voted for \n\n"+
+            "Your {{vote}} was cast.\n\n\n"+
             "Oh, and Democracy says thanks.";
 var replyTemplate = new Boo(t);
 module.exports = replyToVoter;

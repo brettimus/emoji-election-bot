@@ -50,7 +50,9 @@ process.stdin.resume();
 
 // Helper... not sure what to do with this right now
 function replyCallback(error, tweet, response) {
-    if (error) throw error;
+    if (error) {
+        console.log("Error on reply", error);
+    }
     // console.log(tweet);  // Tweet body. 
     // console.log(response);  // Raw response object. 
 }
