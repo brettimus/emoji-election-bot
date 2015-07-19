@@ -5,11 +5,12 @@ var validateVote  = require("./vote-validator");
 var sendVote      = require("./vote-sender");
 var replyToVoter  = require("./vote-replier");
 
-var credentials = require("./credentials");
+var config = require("./config");
+var credentials = require("./config/credentials");
 
 var client = new Twitter(credentials);
 
-var BOT_HANDLE = "emojielection";
+var BOT_HANDLE = config.BOT_HANDLE;
 
 client.stream('statuses/filter', { track: '@'+BOT_HANDLE }, function(stream) {
 
@@ -49,7 +50,8 @@ client.stream('statuses/filter', { track: '@'+BOT_HANDLE }, function(stream) {
     });
 });
 
-// HACK keeps shit alive on the server...
+// HACK 
+// This keeps shit alive on the server...
 process.stdin.resume();
 
 // Helper... not sure what to do with this right now

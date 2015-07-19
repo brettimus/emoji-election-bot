@@ -1,7 +1,7 @@
 var request           = require('request');
 var parseVoteResponse = require('./vote-response-parser');
 
-var ENDPOINT = 'http://emojifor.us/tweet/create';
+var ENDPOINT = require("./config").ENDPOINT;
 
 module.exports = sendVote;
 
