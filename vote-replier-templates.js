@@ -13,9 +13,8 @@ var votedForSelf = "@{{voter}}"+
                     "I'll remember next November that you are {{vote}}.";
 
 var firstVoteForCandidate = "@{{voter}} "+
-                "Hello, Patriot!\n\n"+
-                "You're the first to give @{{candidate}} "+
-                "a {{vote}}.";
+                "Hey there, Patriot!\n\n"+
+                "You cast the first {{vote}} for @{{candidate}} ";
 
 templates = {
     createdVote: new Boo(createdVote),

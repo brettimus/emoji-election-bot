@@ -13,6 +13,9 @@ var CANDIDATES = [
     "rudeboot",
     "gunboat",
     "seanlerner",
+    "marazepeda",
+    "88_Erik_88",
+    "samsquan_ch",
 ].map(function(s) { return s.toLowerCase(); });
 
 // Make a hash for easier lookups by handle
