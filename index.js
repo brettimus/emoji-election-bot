@@ -4,12 +4,12 @@ var parseTweet    = require('./tweet-parser');
 var validateVote  = require("./vote-validator");
 var sendVote      = require("./vote-sender");
 var replyToVoter  = require("./vote-replier");
+var replyCallback = replyToVoter.replyCallback;
 
-var config = require("./config");
 var credentials = require("./config/credentials");
+var client      = new Twitter(credentials);
 
-var client = new Twitter(credentials);
-
+var config     = require("./config");
 var BOT_HANDLE = config.BOT_HANDLE;
 
 client.stream('statuses/filter', { track: '@'+BOT_HANDLE }, function(stream) {
@@ -53,12 +53,3 @@ client.stream('statuses/filter', { track: '@'+BOT_HANDLE }, function(stream) {
 // HACK 
 // This keeps shit alive on the server...
 process.stdin.resume();
-
-// Helper... not sure what to do with this right now
-function replyCallback(error, tweet, response) {
-    if (error) {
-        console.log("Error on reply", error);
-    }
-    // console.log(tweet);  // Tweet body. 
-    // console.log(response);  // Raw response object. 
-}

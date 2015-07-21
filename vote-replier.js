@@ -1,5 +1,6 @@
 var templates = require("./vote-replier-templates");
 
+replyToVoter.replyCallback = replyCallback;
 module.exports = replyToVoter;
 
 function replyToVoter(client, data, next) {
@@ -35,4 +36,13 @@ function createReply(data) {
     else {
         return templates.voteUpdated(templateData);
     }
+}
+
+// Helper... not sure what to do with this right now
+function replyCallback(error, tweet, response) {
+    if (error) {
+        console.log("Error on reply", error);
+    }
+    // console.log(tweet);  // Tweet body. 
+    // console.log(response);  // Raw response object. 
 }

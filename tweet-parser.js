@@ -13,6 +13,7 @@ function parseTweet(tweet) {
             .filter(isCandidate)
             .map(parseUser);
 
+    console.log("candidates from tweet: ", candidates);
     return {
         vote          : vote,
         voter         : voter,
