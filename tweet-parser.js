@@ -30,9 +30,12 @@ function isCandidate(m) {
 }
 
 function parseEmoji(text) {
-    var match = text.match(emojiRegex());
+    var result,
+        match = text.match(emojiRegex());
+
     if (!match) return null;
-    return match[0];
+
+    return match.slice(0,2).join("");
 }
 
 function parseUser(m) {
