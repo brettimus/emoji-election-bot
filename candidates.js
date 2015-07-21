@@ -1,33 +1,3 @@
-var CANDIDATES = [
-    "HillaryClinton",
-    "BernieSanders",
-    "LincolnChafee",
-    "MartinOMalley",
-    "JimWebbUSA",
-    "ChrisChristie",
-    "JebBush",
-    "TedCruz",
-    "RandPaul",
-    "BobbyJindal",
-    "MarcoRubio",
-    "rudeboot",
-    "gunboat",
-    "seanlerner",
-    "marazepeda",
-    "88_Erik_88",
-    "samsquan_ch",
-].map(function(s) { return s.toLowerCase(); });
-
-// Make a hash for easier lookups by handle
-CANDIDATES._hash = {};
-CANDIDATES.forEach(function(handle) {
-    this._hash[handle] = true;
-}, CANDIDATES);
-
-
-CANDIDATES.contains = function(handle) {
-    var iHandle = handle.toLowerCase();
-    return !!CANDIDATES._hash[iHandle];
-};
+var CANDIDATES = require("us-presidential-candidates-2016");
 
 module.exports = CANDIDATES;
