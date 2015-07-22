@@ -3,7 +3,7 @@
 
 var Boo = require("boo-templates");
 
-var t = "@{{voter}}"+
+var t = "@{{voter}} "+
         "Can't believe you voted...!\n\n"+
         "I'll remember this in Nov. 😉";
 
