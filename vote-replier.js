@@ -1,6 +1,7 @@
-var templates = require("./vote-replier-templates");
+var templates = require("./vote-replies");
 
 replyToVoter.replyCallback = replyCallback;
+
 module.exports = replyToVoter;
 
 function replyToVoter(client, data, next) {
@@ -16,7 +17,9 @@ function replyToVoter(client, data, next) {
 }
 
 function createReply(data) {
-    var originalData = data.original_request;
+    var originalData = data.original_request,
+        originalStatus = originalData.original_text;
+
     var templateData = {
         candidate: originalData.candidates[0].handle,
         voter: originalData.voter.handle,
@@ -24,18 +27,32 @@ function createReply(data) {
     };
 
     var votedForSelf = (templateData.voter === templateData.candidate);
-    if (data.isFirstVote) {
-        return templates.firstVoteForCandidate(templateData);
-    }
+
     if (votedForSelf) {
         return templates.votedForSelf(templateData);
     }
-    else if (data.isNew) {
-        return templates.voteCreated(templateData);
+    if (data.userInitialVotesCount === 0) {
+        if (isFromApp(originalStatus)) {
+            return templates.voteFirstApp(templateData);
+        }
+        else {
+            return templates.voteFirstTwitter(templateData);
+        }
     }
-    else {
+    else if (data.userUpdatingVote) {
         return templates.voteUpdated(templateData);
     }
+    else {
+        return templates.voteDefault(templateData);
+    }
+}
+
+function isFromApp(originalStatus) {
+    if (!originalStatus) {
+        console.log("YOU DID NOT PASS ME THE ORIGINAL STATUS");
+        return false;
+    }
+    return (originalStatus.indexOf("via @emojielection") !== -1);
 }
 
 // Helper... not sure what to do with this right now
