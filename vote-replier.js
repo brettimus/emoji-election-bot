@@ -29,7 +29,7 @@ function createReply(data) {
     var votedForSelf = (templateData.voter === templateData.candidate);
 
     if (votedForSelf) {
-        return templates.votedForSelf(templateData);
+        return templates.candidateSelf(templateData);
     }
     if (data.userInitialVotesCount === 0) {
         if (isFromApp(originalStatus)) {
