@@ -12,6 +12,5 @@ var template = new Boo(t);
 module.exports = candidateSelf;
 
 function candidateSelf(data) {
-    var result = template.compile(data);
-    return (result + tag);
+    return template.compile(data);
 }
