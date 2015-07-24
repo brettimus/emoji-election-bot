@@ -9,7 +9,7 @@
     "miso.dataset": "^0.4.1",
     "request": "^2.58.0",
     "twitter": "^1.2.5",
-    "us-presidential-candidates-2016": "^1.1.0"
+    "us-presidential-candidates-2016": "^1.1.1"
   },
   "devDependencies": {},
   "scripts": {
