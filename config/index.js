@@ -1,4 +1,5 @@
 module.exports = {
     BOT_HANDLE: "emojielection",
-    ENDPOINT: "http://emojifor.us/tweet/create",
+    ENDPOINT: "http://demoji.co/tweet/create",
+    DEMOJI_SECRET: "",
 };
