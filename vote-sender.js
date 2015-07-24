@@ -30,5 +30,5 @@ function requestError(error) {
 }
 
 function responseError(response, body) {
-    console.log("Something went wrong ("+response.statusCode+")", body);
+    console.log("Something went wrong ("+(response && response.statusCode)+")", body);
 }
