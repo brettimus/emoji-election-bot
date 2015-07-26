@@ -28,6 +28,7 @@ client.stream('statuses/filter', { track: '@'+BOT_HANDLE }, function(stream) {
             sendVote(data, function(err, response, body) {
                 if (err) {
                     console.log("Error sending vote...", err);
+                    console.log("Time of error: ", (new Date()));
                     return;
                 }
                 if (data.voter.handle === BOT_HANDLE) {
