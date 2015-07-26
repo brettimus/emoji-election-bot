@@ -4,4 +4,5 @@ module.exports = {
     voteFirstApp      : require("./vote-first-app"),
     voteFirstTwitter  : require("./vote-first-twitter"),
     voteDefault       : require("./default"),
+    voteUpdated       : require("./vote-updated"),
 };
