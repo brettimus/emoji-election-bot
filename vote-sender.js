@@ -6,6 +6,7 @@ var ENDPOINT = require("./config").ENDPOINT;
 module.exports = sendVote;
 
 function sendVote(data, next) {
+    data.bot_key = process.env.BOT_KEY;
     request.post(
         ENDPOINT,
         { form: data },
