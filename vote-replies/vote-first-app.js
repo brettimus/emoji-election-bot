@@ -16,7 +16,7 @@ function voteFirstApp(data) {
     var result = template.compile(data);
 
     if ((result + tag).length > (140 - 24)) { // Twitter counts links as 23 chars
-        return result + "https://medium.com/@emojielection/how-to-vote-in-the-emoji-election-58d108cefae5";
+        return result;
     }
-    return (result + tag);
+    return (result + tag + "https://medium.com/@emojielection/how-to-vote-in-the-emoji-election-58d108cefae5");
 }
