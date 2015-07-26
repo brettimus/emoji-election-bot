@@ -4,7 +4,7 @@
 var Boo = require("boo-templates");
 
 var t = "@{{voter}} "+
-        "You saved democracy!\n\n"+
+        "You saved democracy! "+
         "Your 1st vote was cast.";
 
 var template = new Boo(t);
@@ -12,7 +12,7 @@ var template = new Boo(t);
 module.exports = voteFirstTwitter;
 
 function voteFirstTwitter(data) {
-    var tag = (new Boo(" (@{{candidate}} is pretty {{vote}}!)")).compile(data);
+    var tag = (new Boo("\n\n(@{{candidate}} is pretty {{vote}}!)")).compile(data);
     var result = template.compile(data);
 
     if ((result + tag).length > 140) {
