@@ -9,7 +9,14 @@ var replyCallback = replyToVoter.replyCallback;
 var credentials = require("./config/credentials");
 var client      = new Twitter(credentials);
 
-var cache = require("./redis-client")();
+var r_cache = require("./redis-client")();
+console.log(r_cache);
+r_cache.on("ready", function(data) {
+    console.log("REDIS IS READY!!!", data);
+});
+r_cache.on("error", function(err) {
+    console.log("GODDAMNIT REDIS!!!", err);
+});
 
 var config     = require("./config");
 var BOT_HANDLE = config.BOT_HANDLE;
