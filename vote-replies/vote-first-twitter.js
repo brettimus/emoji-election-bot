@@ -12,7 +12,7 @@ var template = new Boo(t);
 module.exports = voteFirstTwitter;
 
 function voteFirstTwitter(data) {
-    var tag = " (@{{candidate}} is pretty {{vote}}!)";
+    var tag = (new Boo(" (@{{candidate}} is pretty {{vote}}!)")).compile(data);
     var result = template.compile(data);
 
     if ((result + tag).length > 140) {
