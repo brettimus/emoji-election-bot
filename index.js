@@ -32,6 +32,7 @@ client.stream('statuses/filter', { track: '@'+BOT_HANDLE }, function(stream) {
                 }
                 if (data.voter.handle === BOT_HANDLE) {
                     console.log("[BOT]: Short circuited a reply to myself.");
+                    return;
                 }
                 else {
                     replyToVoter(

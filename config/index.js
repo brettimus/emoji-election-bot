@@ -1,5 +1,5 @@
 module.exports = {
     BOT_HANDLE: "emojielection",
-    ENDPOINT: "http://www.demoji.co/tweet/create",
+    ENDPOINT: "http://demoji.herokuapp.com/tweet/create",
     DEMOJI_SECRET: "",
 };

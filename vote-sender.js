@@ -13,6 +13,7 @@ function sendVote(data, next) {
             if (error) {
                 requestError(error);
                 next(error);
+                return;
             }
             if (!error && response.statusCode == 200) {
                 next(null, response, JSON.parse(body));
