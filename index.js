@@ -9,6 +9,8 @@ var replyCallback = replyToVoter.replyCallback;
 var credentials = require("./config/credentials");
 var client      = new Twitter(credentials);
 
+var cache = require("./redis-client")();
+
 var config     = require("./config");
 var BOT_HANDLE = config.BOT_HANDLE;
 
