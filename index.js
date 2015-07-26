@@ -16,7 +16,10 @@ client.stream('statuses/filter', { track: '@'+BOT_HANDLE }, function(stream) {
 
     stream.on('data', function(tweet) {
         var data = parseTweet(tweet);
-
+        if (data.voter.handle === BOT_HANDLE) {
+            console.log("[BOT]: Short circuited a false-vote by yours truly.");
+            return;
+        }
         process.nextTick(function() {
             validateVote(data, {
                 success: success,
@@ -29,10 +32,6 @@ client.stream('statuses/filter', { track: '@'+BOT_HANDLE }, function(stream) {
                 if (err) {
                     console.log("Error sending vote...", err);
                     console.log("Time of error: ", (new Date()));
-                    return;
-                }
-                if (data.voter.handle === BOT_HANDLE) {
-                    console.log("[BOT]: Short circuited a reply to myself.");
                     return;
                 }
                 else {

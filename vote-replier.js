@@ -58,7 +58,8 @@ function isFromApp(originalStatus) {
 // Helper... not sure what to do with this right now
 function replyCallback(error, tweet, response) {
     if (error) {
-        console.log("Error on reply", error);
+        console.log("Error on reply", error); 
+        // HANDLE WITH REDIS AND QUEUE
     }
     // console.log(tweet);  // Tweet body. 
     // console.log(response);  // Raw response object. 
