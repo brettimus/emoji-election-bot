@@ -14,7 +14,7 @@ var template = new Boo(t);
 module.exports = voteDefault;
 
 function voteDefault(data) {
-    var tag = " ...I 😍 U.";
+    var tag = " I love you. 💘";
     var result = template.compile(data);
 
     if ((result + tag).length > 140) {
