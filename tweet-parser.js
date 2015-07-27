@@ -1,6 +1,6 @@
 var CANDIDATES = require("./candidates");
 var emojiRegex = require("emoji-regex");
-
+var MAX_EMOJI = require("./config").MAX_EMOJI;
 module.exports = parseTweet;
 
 function parseTweet(tweet) {
@@ -34,7 +34,7 @@ function parseEmoji(text) {
 
     if (!match) return null;
 
-    return match.slice(0,2).join("");
+    return match.slice(0, MAX_EMOJI).join("");
 }
 
 function parseUser(m) {
