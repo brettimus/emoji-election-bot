@@ -35,7 +35,7 @@ cache.on("ready", function() {
 
     // check every minute if it's okay to tweet
     setInterval(function() {
-
+        console.log("About to fire tweetUntilYouDie...", (new Date()));
         tweetUntilYouDie(function(results) {
             console.log("Finished tweeting till I died. Time is:", (new Date()));
             console.log("Here are the results. Phew.");
@@ -66,6 +66,13 @@ cache.on("ready", function() {
             function processTweet(err, data) {
                 if (err) {
                     RESULTS.push(err);
+                    if (RESULTS.length === POSTING_LIMIT) {
+                        return next(RESULTS);
+                    }
+                }
+
+                if (!data) {
+                    RESULTS.push("Nothing in the queue...");
                     if (RESULTS.length === POSTING_LIMIT) {
                         return next(RESULTS);
                     }
