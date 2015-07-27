@@ -1,5 +1,5 @@
 var moment = require("moment");
-var Twitter = require("Twitter");
+var Twitter = require("twitter");
 
 var credentials = require("./config/credentials");
 var client      = new Twitter(credentials);
