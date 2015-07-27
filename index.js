@@ -8,16 +8,20 @@ var emojiElection = require("./bot");
 var replyToVoter  = require("./vote-replier");
 
 // Data structures
-var redis = require("redis");
-var cache = require("./redis-client")();
-var queueName   = require("./config/redis").queueName();
-var stackName   = require("./config/redis").stackName();
-var createStack = require("./db/stack"),
+var redis = require("redis"),
+    cache = require("./redis-client")();
+var stackName   = require("./config/redis").stackName(),
+    createStack = require("./db/stack"),
     stack;
-var createQueue = require("./db/queue"),
+var queueName   = require("./config/redis").queueName(),
+    createQueue = require("./db/queue"),
     queue;
 
-var POSTING_LIMIT = 23;
+var POSTING_LIMIT = require("./config").POSTING_LIMIT;
+
+console.log("===");
+console.log("Starting app!");
+console.log("===");
 
 cache.on("ready", function() {
     console.log("REDIS IS READY!!! Time: ", (new Date()));
@@ -38,7 +42,7 @@ cache.on("ready", function() {
             console.log(results);
         });
 
-    }, 60000);
+    }, 5000);
 
     function tweetUntilYouDie(next) {
 
