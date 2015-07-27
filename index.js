@@ -76,6 +76,7 @@ cache.on("ready", function() {
                     if (RESULTS.length === POSTING_LIMIT) {
                         return next(RESULTS);
                     }
+                    return;
                 }
 
                 data = JSON.parse(data);
