@@ -1,73 +1,114 @@
-var Twitter    = require('twitter');
-
-var parseTweet    = require('./tweet-parser');
-var validateVote  = require("./vote-validator");
-var sendVote      = require("./vote-sender");
-var replyToVoter  = require("./vote-replier");
-var replyCallback = replyToVoter.replyCallback;
+var moment = require("moment");
+var Twitter = require("Twitter");
 
 var credentials = require("./config/credentials");
 var client      = new Twitter(credentials);
 
+var emojiElection = require("./bot");
+var replyToVoter  = require("./vote-replier");
+
+// Data structures
 var redis = require("redis");
-var r_cache = require("./redis-client")();
+var cache = require("./redis-client")();
+var queueName   = require("./config/redis").queueName();
+var stackName   = require("./config/redis").stackName();
+var createStack = require("./db/stack"),
+    stack;
+var createQueue = require("./db/queue"),
+    queue;
 
-r_cache.on("ready", function() {
-    console.log("REDIS IS READY!!!");
-    test_redis();
-    emojiElection();
-});
-r_cache.on("error", function(err) {
-    console.error("GODDAMNIT REDIS!!!", err);
-});
+var POSTING_LIMIT = 23;
 
-var config     = require("./config");
-var BOT_HANDLE = config.BOT_HANDLE;
+cache.on("ready", function() {
+    console.log("REDIS IS READY!!! Time: ", (new Date()));
 
-function test_redis() {
-    r_cache.set("test", "true", redis.print);
-}
+    // Initialize data structures
+    stack = createStack(stackName, cache);
+    queue = createQueue(queueName, cache);
 
-function emojiElection() {
-    client.stream('statuses/filter', { track: '@'+BOT_HANDLE }, function(stream) {
+    // This runs the bot
+    emojiElection(client, queue);
 
-        stream.on('data', function(tweet) {
-            var data = parseTweet(tweet);
-            if (data.voter.handle === BOT_HANDLE) {
-                console.log("[BOT]: Short circuited a false-vote by yours truly.");
+    // check every minute if it's okay to tweet
+    setInterval(function() {
+
+        tweetUntilYouDie(function(results) {
+            console.log("Finished tweeting till I died. Time is:", (new Date()));
+            console.log("Here are the results. Phew.");
+            console.log(results);
+        });
+
+    }, 60000);
+
+    function tweetUntilYouDie(next) {
+
+        var RESULTS = [];
+
+        for (var i = 0; i < POSTING_LIMIT; i++) {
+            stack.ifSafeToTweet(tweet);
+        }
+
+        function tweet(err) {
+            if (err) {
+                RESULTS.push(err);
+                if (RESULTS.length === POSTING_LIMIT) {
+                    return next(RESULTS);
+                }
                 return;
             }
-            process.nextTick(function() {
-                validateVote(data, {
-                    success: success,
-                    failure: function(msg) { console.log(msg); },
-                });
-            });
 
-            function success() {
-                sendVote(data, function(err, response, body) {
+            queue.dequeue(processTweet);
+
+            function processTweet(err, data) {
+                if (err) {
+                    RESULTS.push(err);
+                    if (RESULTS.length === POSTING_LIMIT) {
+                        return next(RESULTS);
+                    }
+                }
+
+                data = JSON.parse(data);
+                replyToVoter(client, data, replyCallback);
+
+                function replyCallback(err, tweet, response) {
                     if (err) {
-                        console.log("Error sending vote...", err);
-                        console.log("Time of error: ", (new Date()));
+                        data.failed_replies_count++;
+                        if (data.failed_replies_count < 3) {
+                            // Retry
+                            queue.enqueue(JSON.stringify(data), redis.print);
+                        }
+                        else {
+                            console.error("Third error replying to tweet! I'm giving up on this one...");
+                        }
+
+                        RESULTS.push(err);
+                        if (RESULTS.length === POSTING_LIMIT) {
+                            return next(RESULTS);
+                        }
+                        console.error(err);
                         return;
                     }
-                    else {
-                        replyToVoter(
-                            client,
-                            body,
-                            replyCallback
-                        );
-                    }
-                });
-            }
-        });
 
-        stream.on('error', function(error) {
-            console.log(error);
-            throw error;
-        });
-    });
-}
+                    stack.push(tweet.created_at, redis.print);
+
+                    RESULTS.push(null);
+                    if (RESULTS.length === POSTING_LIMIT) {
+                        return next(RESULTS);
+                    }
+                }
+
+            }
+
+        }
+    }
+});
+
+cache.on("error", function(err) {
+    console.error("GODDAMNIT REDIS!!!", err);
+
+    // TODO
+    // errorBot
+});
 
 // HACK 
 // This keeps shit alive on the server...

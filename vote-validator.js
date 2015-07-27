@@ -7,12 +7,20 @@ function validateVote(data, callbacks) {
 
     if (!data.vote) {
         console.log("No emoji found. Here's the parsed data: ", data);
-        callbacks.failure("No emoji.");
-    } else if (!data.candidates.length) {
+        process.nextTick(function() {
+            callbacks.failure("No emoji.");
+        });
+    }
+    else if (!data.candidates.length) {
         console.log("No candidate found! Here's the parsed data: ", data);
-        callbacks.failure("No candidate.");
-    } else {
-        callbacks.success();
+        process.nextTick(function() {
+            callbacks.failure("No candidate.");
+        });
+    }
+    else {
+        process.nextTick(function(){
+            callbacks.success();
+        });
     }
 }
 

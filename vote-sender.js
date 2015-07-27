@@ -17,7 +17,7 @@ function sendVote(data, next) {
                 return;
             }
             if (!error && response.statusCode == 200) {
-                next(null, response, JSON.parse(body));
+                next(null, response, body); //body is json
             }
             else {
                 responseError(response, body);

@@ -1,7 +1,5 @@
 var templates = require("./vote-replies");
 
-replyToVoter.replyCallback = replyCallback;
-
 module.exports = replyToVoter;
 
 function replyToVoter(client, data, next) {
@@ -53,14 +51,4 @@ function isFromApp(originalStatus) {
         return false;
     }
     return (originalStatus.indexOf("via @emojielection") !== -1);
-}
-
-// Helper... not sure what to do with this right now
-function replyCallback(error, tweet, response) {
-    if (error) {
-        console.log("Error on reply", error); 
-        // HANDLE WITH REDIS AND QUEUE
-    }
-    // console.log(tweet);  // Tweet body. 
-    // console.log(response);  // Raw response object. 
 }
