@@ -16,5 +16,5 @@ Queue.prototype.dequeue = function(next) {
 };
 
 Queue.prototype.length = function(next) {
-    this.cache.llen(next);
+    this.cache.llen(this.name, next);
 };
