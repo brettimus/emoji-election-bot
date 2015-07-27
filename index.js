@@ -35,8 +35,6 @@ cache.on("ready", function() {
 
     // check every minute if it's okay to tweet
     setInterval(function() {
-        console.log("About to fire tweetUntilYouDie...", (new Date()));
-
         queue.length(function(err, len) {
             if (err) {
                 console.log("Couldn't get lenght of queue...");
@@ -52,7 +50,7 @@ cache.on("ready", function() {
 
         });
 
-    }, 5000);
+    }, 5000); // TODO - change to 60 seconds for production?
 
     function tweetUntilYouDie(n, next) {
 
