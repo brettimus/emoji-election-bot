@@ -14,3 +14,7 @@ Queue.prototype.enqueue = function(val, next) {
 Queue.prototype.dequeue = function(next) {
     this.cache.lpop(this.name, next);
 };
+
+Queue.prototype.length = function(next) {
+    this.cache.llen(next);
+};

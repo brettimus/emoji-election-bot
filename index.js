@@ -36,26 +36,37 @@ cache.on("ready", function() {
     // check every minute if it's okay to tweet
     setInterval(function() {
         console.log("About to fire tweetUntilYouDie...", (new Date()));
-        tweetUntilYouDie(function(results) {
-            console.log("Finished tweeting till I died. Time is:", (new Date()));
-            console.log("Here are the results. Phew.");
-            console.log(results);
+
+        queue.length(function(err, len) {
+            if (err) {
+                console.log("Couldn't get lenght of queue...");
+                console.error(err);
+                return;
+            }
+
+            tweetUntilYouDie(len, function(results) {
+                console.log("Finished tweeting till I died. Time is:", (new Date()));
+                console.log("Here are the results. Phew.");
+                console.log(results);
+            });
+
         });
 
     }, 5000);
 
-    function tweetUntilYouDie(next) {
+    function tweetUntilYouDie(n, next) {
 
         var RESULTS = [];
+        var LIMIT = Math.min(n, POSTING_LIMIT);
 
-        for (var i = 0; i < POSTING_LIMIT; i++) {
+        for (var i = 0; i < LIMIT; i++) {
             stack.ifSafeToTweet(tweet);
         }
 
         function tweet(err) {
             if (err) {
                 RESULTS.push(err);
-                if (RESULTS.length === POSTING_LIMIT) {
+                if (RESULTS.length === LIMIT) {
                     return next(RESULTS);
                 }
                 return;
@@ -66,14 +77,14 @@ cache.on("ready", function() {
             function processTweet(err, data) {
                 if (err) {
                     RESULTS.push(err);
-                    if (RESULTS.length === POSTING_LIMIT) {
+                    if (RESULTS.length === LIMIT) {
                         return next(RESULTS);
                     }
                 }
 
                 if (!data) {
                     RESULTS.push("Nothing in the queue...");
-                    if (RESULTS.length === POSTING_LIMIT) {
+                    if (RESULTS.length === LIMIT) {
                         return next(RESULTS);
                     }
                     return;
@@ -94,7 +105,7 @@ cache.on("ready", function() {
                         }
 
                         RESULTS.push(err);
-                        if (RESULTS.length === POSTING_LIMIT) {
+                        if (RESULTS.length === LIMIT) {
                             return next(RESULTS);
                         }
                         console.error(err);
@@ -104,7 +115,7 @@ cache.on("ready", function() {
                     stack.push(tweet.created_at, redis.print);
 
                     RESULTS.push(null);
-                    if (RESULTS.length === POSTING_LIMIT) {
+                    if (RESULTS.length === LIMIT) {
                         return next(RESULTS);
                     }
                 }
